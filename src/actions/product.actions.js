@@ -7,6 +7,7 @@ import { productConstants } from '../constants';
 
 const PRODUCTS_URL = `${config.SECURED_API_URL}/items`;
 const PRODUCTS_FETCH_URL = `${PRODUCTS_URL}/fetch`;
+const PRODUCTS_FETCH_NOT_MATCHED_STORE_URL = `${PRODUCTS_URL}/fetch/not_matched_store`;
 
 class PrivateProductActions {
   createProductRequest = () => {
@@ -118,6 +119,19 @@ class PublicProductActions {
         dispatch(privateProductActions.fetchProductSuccess(data));
       });
     }
+  }
+
+  fetchProductsNotMatchedStore = (store_id) => {
+    const token = localStorage.getItem('api_owner_token');
+    const request = axios.get(`${PRODUCTS_FETCH_NOT_MATCHED_STORE_URL}/${store_id}?token=${token}`);
+
+    return (dispatch) => {
+      dispatch(privateProductActions.requestProducts());
+      
+      return request.then(({ data }) => {
+        dispatch(privateProductActions.receiveProducts(data));
+      });
+    };
   }
 }
 

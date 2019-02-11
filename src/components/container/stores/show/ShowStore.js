@@ -6,17 +6,24 @@ import { Show } from '../../../presentational/content/stores';
 class ShowStore extends Component {
   componentDidMount() {
     if (!this.props.store) {
-      const { storeActions, match: { params: { id } } } = this.props;
+      const { storeActions, productActions, match: { params: { id } } } = this.props;
+
       storeActions.fetchStore(id);
+      productActions.fetchProductsNotMatchedStore(id);
     }
   }
 
   render() {
-    const { store } = this.props;
+    const { store, products } = this.props;
 
     return (
       <Loading loading={!store}>
-        <Show store={store} />
+        <Loading loading={!products}>
+          <Show 
+            store={store} 
+            products={products} 
+          />
+        </Loading>
       </Loading>
     );
   }

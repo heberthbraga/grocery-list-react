@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Login from '../components/container/login';
+import SecuredRoute from './SecuredRoute';
 
-import { ApplicationLayout } from '../components/presentational/application';
+import Login from '../components/container/login';
 import { NotFound } from '../components/presentational/application';
 import Dashboard from '../components/container/dashboard';
 import Products from '../components/container/products/index';
@@ -16,24 +16,6 @@ import ShowStore from '../components/container/stores/show';
 import Categories from '../components/container/categories/index';
 import NewCategory from '../components/container/categories/new';
 import ShowCategory from '../components/container/categories/show';
-
-const SecuredRoute = ({component: Component, isAuthenticated, ...rest}) => {
-  return (
-      <Route 
-        {...rest}
-        render={props => isAuthenticated ? 
-          (
-            <ApplicationLayout pathName={props.location.pathname}>
-              <Component {...props} isAuthenticated={isAuthenticated} />
-            </ApplicationLayout>
-          ) : 
-          (
-            <Redirect to='/' />
-          )
-        }
-      />
-  );
-}
 
 export const Routes = ({ isAuthenticated, errorMessage }) => {
   return (

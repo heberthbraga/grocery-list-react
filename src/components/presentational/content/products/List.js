@@ -3,76 +3,52 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Card, List as AntList } from 'antd';
+import { List } from 'antd';
 
 import { Header } from '../header';
-
-import { eachSlice } from '../../../../helpers';
+import { renderCategories } from '../../../../helpers';
 
 const Container = styled.div`
   padding: 30px 80px 80px 80px;
 `
-
-const { Meta } = Card;
-
-const renderProductCard = (product) => {
-  return (
-    <Link to={`/product/show/${product.id}`}>
-      <Card 
-        hoverable
-        cover={
-          <img alt="example" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
-        }
-      >
-        <Meta
-          title={product.name}
-          description="www.instagram.com"
-        />
-      </Card>
-    </Link>
-  );
-}
-
-const renderProductCols = (innerProducts) => {
-  return _.map(innerProducts, (product, index) => {
-    return (
-      <AntList.Item 
-        key={index} 
-        style={{ margin: 10 }} 
-      >
-        {
-          renderProductCard(product)
-        }
-      </AntList.Item>
-    )
+const generateListData = (products) => {
+  return _.map(products, (product) => {
+    return ({
+      id: product.id,
+      href: 'http://ant.design',
+      title: product.name,
+      picture: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+      content: renderCategories(product.categories)
+    });
   });
 }
 
-const renderProductRows = (productsMap) => {
-  const products = _.toArray(productsMap);
-  const slicedProducts = eachSlice(products, 6);
-
-  return _.map(slicedProducts, (innerProducts, index) => {
-    return (
-      <AntList 
-        key={index} 
-        grid={{
-          gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3
-        }}
-      >
-        {
-          renderProductCols(innerProducts)
-        }
-      </AntList>
-    );
-  });
-}
+const { Item, Item: { Meta } } = List;
 
 export default ({ products }) => (
   <Container>
     <Header target='/product/new' title='Novo Produto' />
-    {
-      renderProductRows(products)
-    }
+    <List 
+      itemLayout="vertical"
+      size="large"
+      pagination={{
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 10,
+      }}
+      dataSource={generateListData(products)}
+      renderItem={product => (
+        <Item
+          key={product.id}
+          extra={<img width={150} alt="logo" src={product.picture} />}
+        >
+          <Meta 
+            title={<Link to={`/product/show/${product.id}`}>{product.title}</Link>}
+          />
+          {product.content}
+        </Item>
+      )}
+    />
   </Container>
 );
