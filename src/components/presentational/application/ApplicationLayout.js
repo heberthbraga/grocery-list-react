@@ -11,7 +11,7 @@ const Container = styled(Layout).attrs({
   className: 'ant-layout-has-sider'
 })`
   min-height: 600px;
-  height: 100vh;
+  height: 100%;
   background-color: #FFF;
 `
 

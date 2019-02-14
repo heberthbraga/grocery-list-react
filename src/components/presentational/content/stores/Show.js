@@ -1,44 +1,18 @@
-import _ from 'lodash';
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { 
-  Row, Col, Button, Icon, Card, List
+  Row, Col, Button, Icon, Card
 } from 'antd';
 
-import InfiniteScrolling from '../../../container/navigation/InfiniteScrolling';
-import NewProductStore from '../../../container/productStore/new';
+import LoadGroceryProductsList from '../../../container/productStore/LoadGroceryProductsList';
+import MatchedProducts from '../../../container/stores/MatchedProducts';
 
 const Container = styled.div`
   padding: 30px;
 `
 const { Meta } = Card;
-
-const renderProduct = (storeId, product) =>  {
-  return (
-    <List.Item key={product.id}>
-      <NewProductStore storeId={storeId} product={product} />
-    </List.Item>
-  );
-}
-
-const renderProducts = (storeId, products) => {
-  const productsArr = _.toArray(products);
-
-  return (
-    <InfiniteScrolling 
-      data={productsArr} 
-      size={productsArr.length}>
-      <List
-        bordered
-        dataSource={_.map(products)}
-        renderItem={product => renderProduct(storeId, product)}
-      />
-    </InfiniteScrolling>
-  );
-}
 
 const ProductColumnTitle = styled.h1`
   font-size: 1.5em;
@@ -63,7 +37,7 @@ export default ({ store, products }) => (
       <Col span={12} align="middle" >
         <Row>
           <Card
-            style={{ width: 500 }}
+            style={{ width: 580 }}
             cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
             actions={[<Icon type="delete" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
           >
@@ -71,9 +45,7 @@ export default ({ store, products }) => (
               title={store.name}
               description={<a href={`http://${store.website}`} target='_blank' rel='noopener noreferrer' >{store.website}</a>}
             />
-            <p style={{marginTop: 15}}>
-              Content
-            </p>
+            <LoadGroceryProductsList items={store.grocery_items} />
           </Card>
         </Row>
         <Row>
@@ -82,7 +54,10 @@ export default ({ store, products }) => (
         </Row>
       </Col>
       <Col span={12}>
-        {renderProducts(store.id, products)}
+        <MatchedProducts 
+          storeId={store.id} 
+          products={products} 
+        />
       </Col>
     </Row>
   </Container>

@@ -11,7 +11,8 @@ class NewProductStore extends Component {
     this.state = {
       grocery_store_id: storeId,
       item_id: product.id,
-      price: null
+      price: null,
+      targetId: null
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,15 +20,25 @@ class NewProductStore extends Component {
   }
 
   handleChange = (e) => {
-    console.log(e);
+    this.setState({
+      price: e
+    })
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const { storeId, productStoreActions } = this.props;
+    productStoreActions.createProductStore(storeId, this.state);
+
+    this.setState({
+      targetId: this.state.item_id
+    });
   }
 
   render() {
-    const { storeId, product } = this.props;
+    const { storeId, product, errors } = this.props;
+    const { targetId } = this.state;
 
     return (
       <ProductStoreForm 
@@ -35,6 +46,8 @@ class NewProductStore extends Component {
         product={product} 
         onSubmit={this.handleSubmit} 
         onChange={this.handleChange}
+        errors={errors}
+        targetId={targetId}
       />
     )
   }

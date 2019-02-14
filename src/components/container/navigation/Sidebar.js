@@ -13,10 +13,10 @@ import { BottomMenu } from '../../presentational/navigation';
 
 const Sider = styled(Layout.Sider)`
   min-height: 600px;
-  max-height: 100vh;
+  max-height: 100%;
   overflow: hidden;
   ul.ant-menu-root:nth-of-type(1) {
-    height: calc(100vh - 144px);
+    height: calc(100vh - 50px);
     overflow: auto;
   }
 `

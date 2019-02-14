@@ -6,6 +6,7 @@ import auth from './authentication.reducer';
 import product from './product.reducer';
 import store from './store.reducer';
 import category from './category.reducer';
+import productStore from './productStore.reducer';
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   auth,
   product,
   store,
-  category
+  category,
+  productStore
 });
 
 export default rootReducer;
