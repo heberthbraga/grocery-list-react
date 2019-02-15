@@ -19,6 +19,16 @@ export default function(state={}, action) {
         isFetching: false,
         errors: action.payload
       }
+    case productStoreConstants.DELETE_PRODUCT_STORE.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case productStoreConstants.DELETE_PRODUCT_STORE.SUCCESS:
+      return {
+        isFetching: false,
+        storeProductId: action.payload 
+      }
   default:
     return state;
   }

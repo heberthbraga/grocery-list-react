@@ -32,6 +32,7 @@ const { Item } = List;
 
 export default ( {storeId, products, onLoadMore, visible} ) => (
   <List 
+    style={{ minWidth: 200 }}
     bordered
     itemLayout="horizontal"
     loadMore={loadMore(onLoadMore, visible, products)}

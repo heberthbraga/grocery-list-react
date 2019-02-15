@@ -1,4 +1,10 @@
+import _ from 'lodash';
+
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { productStoreActions } from '../../../actions';
 
 import { GroceryList } from '../../presentational/content/storeProducts';
 
@@ -14,6 +20,13 @@ class LoadGroceryProductsList extends Component {
     }
 
     this.loadMore = this.loadMore.bind(this);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
+  }
+
+  onDeleteClick(storeProductId) {
+    const { productStoreActions, storeId  } = this.props;
+
+    productStoreActions.deleteStoreProduct(storeId, storeProductId);
   }
 
   loadMore() {
@@ -25,16 +38,25 @@ class LoadGroceryProductsList extends Component {
   }
 
   render() {
-    const { items, visible } = this.state;
+    const { items, visible, storeProductId } = this.state;
+    
+    if (storeProductId) {
+      _.omit(items, storeProductId);
+    }
 
     return (
       <GroceryList 
         groceryProducts={items} 
         onLoadMore={this.loadMore}
         visible={visible}
+        onDelete={this.onDeleteClick}
       />
     )
   }
 }
 
-export default LoadGroceryProductsList;
+const mapDispatchToProps = dispatch => ({
+  productStoreActions: bindActionCreators(productStoreActions, dispatch)
+});
+
+export default connect(state => state, mapDispatchToProps)(LoadGroceryProductsList);

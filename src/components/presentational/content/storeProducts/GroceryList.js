@@ -24,12 +24,12 @@ const loadMore = (onLoadMore, visible, groceryProducts) => (
     onClick={onLoadMore} 
     style={{ marginTop: 10 }}
   >
-  Mais
-  <Icon type="plus" />
+    Mais
+    <Icon type="plus" />
   </Button>
 );
 
-export default ( {groceryProducts, onLoadMore, visible} ) => (
+export default ( {groceryProducts, onLoadMore, visible, onDelete} ) => (
   <List 
     style={{marginTop: 40}}
     itemLayout="horizontal"
@@ -37,7 +37,15 @@ export default ( {groceryProducts, onLoadMore, visible} ) => (
     dataSource={mapGroceryProducts(groceryProducts, visible)}
     renderItem={groceryProduct => (
       <Item
-        actions={[<a><Icon type="close-circle" style={{ color: '#1890ff' }} /></a>]}
+        actions={
+          [
+            <Icon 
+            type="close-circle" 
+            style={{ color: '#1890ff' }} 
+            onClick={() => onDelete(groceryProduct.id)} 
+            />
+          ]
+        }
       >
         <Skeleton title={false} loading={false} active>
           <Meta style={{ textAlign: 'left' }} title={groceryProduct.name} />

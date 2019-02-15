@@ -34,26 +34,20 @@ export default ({ store, products }) => (
       </Col>
     </Row>
     <Row>
-      <Col span={12} align="middle" >
-        <Row>
-          <Card
-            style={{ width: 580 }}
-            cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-            actions={[<Icon type="delete" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-          >
-            <Meta 
-              title={store.name}
-              description={<a href={`http://${store.website}`} target='_blank' rel='noopener noreferrer' >{store.website}</a>}
-            />
-            <LoadGroceryProductsList items={store.grocery_items} />
-          </Card>
-        </Row>
-        <Row>
-          {store.address.street}<br/>
-          {store.address.city} - {store.address.state}, {store.address.zip}
-        </Row>
+      <Col span={10} align="middle" >
+        <Card
+          style={{ minWidth: 200 }}
+          cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+          actions={[<Icon type="delete" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
+        >
+          <Meta 
+            title={store.name}
+            description={<a href={`http://${store.website}`} target='_blank' rel='noopener noreferrer' >{store.website}</a>}
+          />
+          <LoadGroceryProductsList storeId={store.id} items={store.grocery_items} />
+        </Card>
       </Col>
-      <Col span={12}>
+      <Col span={12} style={{paddingLeft: 50}}>
         <MatchedProducts 
           storeId={store.id} 
           products={products} 

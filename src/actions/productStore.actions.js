@@ -27,6 +27,18 @@ class PrivateProductStoreActions {
     }
   }
 
+  deleteProductStoreRequest = () => {
+    return {
+      type: productStoreConstants.DELETE_PRODUCT_STORE.REQUEST
+    }
+  }
+
+  deleteProductStoreSuccess = (id) => {
+    return {
+      type: productStoreConstants.DELETE_PRODUCT_STORE.SUCCESS,
+      payload: id
+    }
+  }
 }
 
 const privateProductStoreActions = new PrivateProductStoreActions();
@@ -54,6 +66,23 @@ class PublicProductStoreActions {
           dispatch(privateProductStoreActions.createProductStoreFailure(errors));
         });
     }
+  }
+
+  deleteStoreProduct = (storeId, id) => {
+    return (dispatch) => {
+      dispatch(privateProductStoreActions.deleteProductStoreRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.delete(`${PRODUCT_STORE_URL}/${id}?token=${token}`)
+      .then(response => {
+        const { data } = response;
+
+        dispatch(privateProductStoreActions.deleteProductStoreSuccess(data.id));
+
+        history.push(`/store/show/${storeId}`);
+      });
+    };
   }
 }
 
