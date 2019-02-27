@@ -11,7 +11,7 @@ class App extends Component {
     const { isAuthenticated, errorMessage } = this.props;
 
     return (
-      <Router history={history} forceRefresh={true}>
+      <Router history={history}>
         <Routes 
           isAuthenticated={isAuthenticated} 
           errorMessage={errorMessage}

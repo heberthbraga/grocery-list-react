@@ -27,9 +27,12 @@ class NewCategory extends Component {
   }
 
   handleChange = (e) => {
-    const { name, value } = e.target;
-
-    this.setState({ [name]: value });
+    if (e.target) {
+      const { name, value } = e.target;
+      this.setState({ [name]: value })
+    } else {
+      this.setState({ category_id: e });
+    }
   }
 
   handleSubmit = (e) => {

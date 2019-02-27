@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { config, history } from '../helpers';
+import { config, refreshHistory } from '../helpers';
 
 import { productStoreConstants } from '../constants';
 
@@ -56,7 +56,7 @@ class PublicProductStoreActions {
 
           dispatch(privateProductStoreActions.createProductStoreSuccess(data));
 
-          history.push(`/store/show/${storeId}`);
+          refreshHistory.push(`/store/show/${storeId}`);
         })
         .catch(error => {
           const { response : { data: { message } } } = error;
@@ -80,7 +80,7 @@ class PublicProductStoreActions {
 
         dispatch(privateProductStoreActions.deleteProductStoreSuccess(data.id));
 
-        history.push(`/store/show/${storeId}`);
+        refreshHistory.push(`/store/show/${storeId}`);
       });
     };
   }

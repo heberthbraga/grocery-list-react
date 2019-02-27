@@ -1,43 +1,74 @@
+import _ from 'lodash';
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { 
-  Row, Col, Card
+  Row, Col, Card, Button, Icon, Tag
 } from 'antd';
 
 import styled from 'styled-components';
 
 import { renderCategories } from '../../../../helpers';
 
+import './products.css';
+
 const Container = styled.div`
   padding: 30px;
 `
 
-const { Meta } = Card;
+const ProductColumnTitle = styled.h1`
+  font-size: 1.5em;
+  text-align: left;
+`;
+
+const renderPricesPerStore = (pricesPerStore) => {
+  return (
+    _.map(pricesPerStore, (response, index) => {
+      return (
+        <Col 
+          key={index}
+          sm={8} 
+          style={{padding: 5}}>
+          <Card 
+            title={response.store}
+            extra={<Icon type="tag" />}
+          >
+            <Tag color={index & 1 ? 'green' : 'red'}>
+              R$ {response.price}
+            </Tag>
+          </Card>
+        </Col>
+      )
+    })
+  );
+}
 
 export default ({ product }) => (
   <Container>
     <Row>
-      <Col>
-        <Link to="/products" className="btn btn-outline-success pull-left">Voltar</Link>
+      <Col sm={12}>
+        <Link to="/products" className="btn btn-outline-success pull-left">
+          <Button type="primary">
+            <Icon type="left" />Voltar
+          </Button>
+        </Link>
       </Col>
     </Row>
-    <Row className="mt-4">
-      <Col md={4}>
-        <Card
-          hoverable
-          cover={
-            <img alt="example" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" />
-          }
-        />
+    <Row style={{marginTop: 20}}>
+      <Col sm={4}>
+        <img alt="example" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" className="logo-large" />
       </Col>
-      <Col md={8}>
-        <Card>
-          <Meta
-            title={product.name}
-            description={renderCategories(product.categories)}
-          />
-        </Card>
+      <Col sm={8} style={{marginLeft: 10}}>
+        <Row>
+          <ProductColumnTitle>{product.name}</ProductColumnTitle>
+        </Row>
+        <Row>
+          {renderCategories(product.categories)}
+        </Row>
+        <Row style={{marginTop: 10}}>
+          {renderPricesPerStore(product.prices_per_store)}
+        </Row>
       </Col>
     </Row>
   </Container>

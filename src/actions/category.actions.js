@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 
-import { config, history } from '../helpers';
+import { config, refreshHistory } from '../helpers';
 import { categoryConstants } from '../constants';
 
 const CATEGORIES_URL = `${config.SECURED_API_URL}/categories`;
@@ -108,7 +108,7 @@ class PublicCategoryActions {
 
           dispatch(privateCategoryActions.createCategorySuccess(data));
 
-          history.push('/');
+          refreshHistory.push('/categories');
         })
         .catch(error => {
           const { response : { data: { message } } } = error;

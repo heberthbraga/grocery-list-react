@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import axios from 'axios';
 
-import { config, history } from '../helpers';
+import { config, refreshHistory } from '../helpers';
 import { productConstants } from '../constants';
 
 const PRODUCTS_URL = `${config.SECURED_API_URL}/items`;
@@ -98,7 +98,7 @@ class PublicProductActions {
 
           dispatch(privateProductActions.createProductSuccess(data));
 
-          history.push('/');
+          refreshHistory.push('/products');
         })
         .catch(error => {
           const { response : { data: { message } } } = error;

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 
-import { config, history } from '../helpers';
+import { config, refreshHistory } from '../helpers';
 import { storeConstants } from '../constants';
 
 const STORES_URL = `${config.SECURED_API_URL}/stores`;
@@ -105,7 +105,7 @@ class PublicStoreActions {
 
           dispatch(privateStoreActions.createStoreSuccess(data));
 
-          history.push('/');
+          refreshHistory.push('/');
         })
         .catch(error => {
           const { response : { data: { message } } } = error;

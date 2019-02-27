@@ -48,7 +48,6 @@ const columns = [
 
 const renderData = (categories) => {
   return _.map(categories, (category) => {
-    console.log(category.subcategory);
     return {
       key: category.id,
       name: { name: category.name, id: category.id },
