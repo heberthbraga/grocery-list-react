@@ -6,5 +6,7 @@ export const productConstants = {
     SUCCESS: 'create_product_success',
     FAILURE: 'create_product_failure'
   },
-  FETCH_PRODUCT: 'fetch_product'
+  FETCH_PRODUCT: 'fetch_product',
+  REQUEST_HIGHLIGHTS: 'request_highlights',
+  RECEIVE_HIGHLIGHTS: 'receive_highlights'
 }

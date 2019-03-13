@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import { renderCategories } from '../../../../helpers';
 
-import './products.css';
+import './products.less';
 
 const Container = styled.div`
   padding: 30px;

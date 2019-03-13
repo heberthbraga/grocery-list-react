@@ -38,6 +38,17 @@ export default function(state={}, action) {
         isFetching: false,
         [action.payload.id]: action.payload
       }
+    case productConstants.REQUEST_HIGHLIGHTS:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case productConstants.RECEIVE_HIGHLIGHTS:
+      return {
+        ...state,
+        isFetching: false,
+        highlights: _.mapKeys(action.payload, 'id')
+      }
   default:
     return state;
   }

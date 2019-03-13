@@ -3,7 +3,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { 
-  Row, Form, Input, Button, Upload, Icon, Select
+  Row, Form, Input, Button, Upload, Icon, Select, InputNumber
 } from 'antd';
 
 import { hasFormError } from '../../../helpers';
@@ -32,6 +32,12 @@ const FIELDS = {
     id: 'name',
     label: 'Nome',
     placeholder: 'Nome',
+    required: true
+  },
+  quantity: {
+    type: 'number',
+    id: 'quantity',
+    label: 'Quantidade',
     required: true
   },
   picture: {
@@ -97,6 +103,12 @@ const renderFields = (errors, onChange, categories) => {
               renderCategoryOptions(categories)
             }
           </Select>
+          : field.type === 'number' ?
+          <InputNumber 
+            id={key}
+            name={field.id}
+            onChange={onChange}
+          />
           :
           <Upload name={field.id} listType="picture">
             <Button>

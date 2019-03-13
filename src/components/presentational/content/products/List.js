@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { List } from 'antd';
+import { List, Badge } from 'antd';
 
 import { Header } from '../header';
 import { renderCategories } from '../../../../helpers';
@@ -18,7 +18,8 @@ const generateListData = (products) => {
       href: 'http://ant.design',
       title: product.name,
       picture: 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-      content: renderCategories(product.categories)
+      content: renderCategories(product.categories),
+      quantity: product.quantity
     });
   });
 }
@@ -41,10 +42,18 @@ export default ({ products }) => (
       renderItem={product => (
         <Item
           key={product.id}
-          extra={<img width={150} alt="logo" src={product.picture} />}
+          extra={
+            <Badge count={product.quantity}>
+              <img width={150} alt="logo" src={product.picture} />
+            </Badge>
+          }
         >
           <Meta 
-            title={<Link to={`/product/show/${product.id}`}>{product.title}</Link>}
+            title={
+              <Link to={`/product/show/${product.id}`}>
+              {product.title}
+              </Link>
+            }
           />
           {product.content}
         </Item>

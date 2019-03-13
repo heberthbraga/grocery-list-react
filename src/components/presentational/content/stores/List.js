@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Table } from 'antd';
+import { Table, Divider, Icon, Button } from 'antd';
 
 import { Header } from '../header';
 
@@ -38,6 +38,21 @@ const columns = [
     title: 'Atualizado Em',
     dataIndex: 'updated_at',
     key: 'updated_at'
+  },
+  {
+    title: '',
+    key: 'action',
+    render: () => (
+      <span>
+        <a href="javascript:;" title="Editar">
+          <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        </a>
+        <Divider type="vertical" />
+        <a href="javascript:;" title="Remover">
+          <Icon type="delete"  style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        </a>
+      </span>
+    )
   }
 ];
 
