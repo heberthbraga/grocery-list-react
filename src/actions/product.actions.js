@@ -9,6 +9,7 @@ const PRODUCTS_URL = `${config.SECURED_API_URL}/items`;
 const PRODUCTS_FETCH_URL = `${PRODUCTS_URL}/fetch`;
 const FETCH_HIGHLIGHTS_URL = `${PRODUCTS_URL}/highlights`;
 const PRODUCTS_FETCH_NOT_MATCHED_STORE_URL = `${PRODUCTS_URL}/fetch/not_matched_store`;
+const SEARCH_PRODUCTS_URL = `${PRODUCTS_URL}/search`;
 
 class PrivateProductActions {
   createProductRequest = () => {
@@ -176,6 +177,15 @@ class PublicProductActions {
       if (privateProductActions.shouldFetchHighlights(getState())) {
         return dispatch(privateProductActions.fetchHighlights());
       }
+    }
+  }
+
+  searchProducts = (keyword) => {
+    const token = localStorage.getItem('api_owner_token');
+    const request = axios.post(`${SEARCH_PRODUCTS_URL}?token=${token}`, {keyword: keyword});
+
+    return (dispatch) => {
+      return request;
     }
   }
 }

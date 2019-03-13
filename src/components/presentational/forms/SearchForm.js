@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Input, Icon } from 'antd';
+import { Input, Button, Icon, AutoComplete } from 'antd';
 
 const Search = Input.Search;
+const Option = AutoComplete.Option;
 
 const Container = styled.div`
   width: 540px;
@@ -11,14 +13,30 @@ const Container = styled.div`
   margin-bottom: 50px;
 `
 
-export default () => (
+const renderOption = (product) => {
+  return (
+    <Option key={product.id}>
+      <Link to={`/product/show/${product.id}`}>
+        {product.name}
+      </Link>
+    </Option>
+  );
+}
+
+export default ({ onSearch, dataSource }) => (
   <Container>
-    <Search
-      prefix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}
+    <AutoComplete 
       placeholder="Produtos"
-      enterButton="Procurar"
       size="large"
-      onSearch={value => console.log(value)}
-    />
+      style={{ width: '100%' }}
+      dataSource={dataSource.map(renderOption)}
+      onSearch={onSearch}
+      optionLabelProp="label"
+    >
+      <Search
+        style={{ width: '100%' }} 
+        size="large"
+      />
+    </AutoComplete>
   </Container>
 );
