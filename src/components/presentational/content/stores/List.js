@@ -4,9 +4,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Table, Divider, Icon, Button } from 'antd';
+import { Table, Divider, Icon } from 'antd';
 
 import { Header } from '../header';
+import { DeleteAction } from '../../shared';
 
 const Container = styled.div`
   padding: 30px;
@@ -42,21 +43,17 @@ const columns = [
   {
     title: '',
     key: 'action',
-    render: () => (
+    render: (text, store) => (
       <span>
-        <a href="javascript:;" title="Editar">
-          <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
-        </a>
+        <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
         <Divider type="vertical" />
-        <a href="javascript:;" title="Remover">
-          <Icon type="delete"  style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
-        </a>
+        <DeleteAction id={store.key} targetAction={store.onDelete}  />
       </span>
     )
   }
 ];
 
-const renderData = (stores) => {
+const renderData = (stores, onEditClick, onDeleteClick) => {
   return _.map(stores, (store) => {
     return {
       key: store.id,
@@ -64,17 +61,19 @@ const renderData = (stores) => {
       fantasy_name: store.fantasy_name,
       website: store.website,
       created_at: store.created_at,
-      updated_at: store.updated_at
+      updated_at: store.updated_at,
+      onEdit: onEditClick,
+      onDelete: onDeleteClick
     }
   });
 }
 
-export default ({ stores }) => (
+export default ({ stores, onEditClick, onDeleteClick}) => (
   <Container>
     <Header target='/store/new' title='Nova Loja' />
     <Table 
       columns={columns} 
-      dataSource={renderData(stores)} 
+      dataSource={renderData(stores, onEditClick, onDeleteClick)} 
       style={{ overflowX: 'auto' }}
     />
   </Container>

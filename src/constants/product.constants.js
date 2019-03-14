@@ -8,5 +8,9 @@ export const productConstants = {
   },
   FETCH_PRODUCT: 'fetch_product',
   REQUEST_HIGHLIGHTS: 'request_highlights',
-  RECEIVE_HIGHLIGHTS: 'receive_highlights'
+  RECEIVE_HIGHLIGHTS: 'receive_highlights',
+  DELETE_PRODUCT: {
+    REQUEST: 'delete_product_request',
+    SUCCESS: 'delete_product_success'
+  }
 }

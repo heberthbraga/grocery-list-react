@@ -48,6 +48,19 @@ class PrivateCategoryActions {
     }
   }
 
+  deleteCategoryRequest = () => {
+    return {
+      type: categoryConstants.DELETE_CATEGORY.REQUEST
+    }
+  }
+
+  deleteCategorySucccess = (id) => {
+    return {
+      type: categoryConstants.DELETE_CATEGORY.SUCCESS,
+      paylod: id
+    }
+  }
+
   fetchCategories = () => {
     return (dispatch) => {
       dispatch(this.requestCategories());
@@ -129,6 +142,23 @@ class PublicCategoryActions {
         dispatch(privateCategoryActions.fetchCategorySuccess(data));
       });
     }
+  }
+
+  deleteCategory = (id) => {
+    return (dispatch) => {
+      dispatch(privateCategoryActions.deleteCategoryRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.delete(`${CATEGORIES_URL}/${id}?token=${token}`)
+        .then(response => {
+          const { data } = response;
+
+          dispatch(privateCategoryActions.deleteCategorySucccess(data.id));
+
+          refreshHistory.push(`/categories`);
+        });
+    };
   }
 }
 

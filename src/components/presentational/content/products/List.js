@@ -3,14 +3,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { List, Badge } from 'antd';
+import { List, Badge, Icon } from 'antd';
 
 import { Header } from '../header';
 import { renderCategories } from '../../../../helpers';
+import { DeleteAction } from '../../shared';
 
 const Container = styled.div`
   padding: 30px 80px 80px 80px;
 `
+
+const { Item, Item: { Meta } } = List;
+
 const generateListData = (products) => {
   return _.map(products, (product) => {
     return ({
@@ -24,9 +28,7 @@ const generateListData = (products) => {
   });
 }
 
-const { Item, Item: { Meta } } = List;
-
-export default ({ products }) => (
+export default ({ products, onEditClick, onDeleteClick }) => (
   <Container>
     <Header target='/product/new' title='Novo Produto' />
     <List 
@@ -42,6 +44,12 @@ export default ({ products }) => (
       renderItem={product => (
         <Item
           key={product.id}
+          actions={
+            [
+              <Icon type="edit" onClick={() => onEditClick(product.id)} />,
+              <DeleteAction id={product.id} targetAction={onDeleteClick} />
+            ]
+          }
           extra={
             <Badge count={product.quantity}>
               <img width={150} alt="logo" src={product.picture} />

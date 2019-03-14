@@ -4,9 +4,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Table, Icon } from 'antd';
+import { Table, Icon, Divider } from 'antd';
 
 import { Header } from '../header';
+import { DeleteAction } from '../../shared';
 
 const Container = styled.div`
   padding: 30px;
@@ -43,10 +44,21 @@ const columns = [
     title: 'Atualizado Em',
     dataIndex: 'updated_at',
     key: 'updated_at'
+  },
+  {
+    title: '',
+    key: 'action',
+    render: (text, category) => (
+      <span>
+        <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        <Divider type="vertical" />
+        <DeleteAction id={category.key} targetAction={category.onDelete}  />
+      </span>
+    )
   }
 ];
 
-const renderData = (categories) => {
+const renderData = (categories, onEditClick, onDeleteClick) => {
   return _.map(categories, (category) => {
     return {
       key: category.id,
@@ -54,17 +66,19 @@ const renderData = (categories) => {
       description: category.description,
       subcategory: category.subcategory,
       created_at: category.created_at,
-      updated_at: category.updated_at
+      updated_at: category.updated_at,
+      onEdit: onEditClick,
+      onDelete: onDeleteClick
     }
   });
 }
 
-export default ({ categories }) => (
+export default ({ categories, onEditClick, onDeleteClick }) => (
   <Container>
     <Header target='/category/new' title='Nova Categoria' />
     <Table 
       columns={columns} 
-      dataSource={renderData(categories)} 
+      dataSource={renderData(categories, onEditClick, onDeleteClick)} 
       style={{ overflowX: 'auto' }}
     />
   </Container>

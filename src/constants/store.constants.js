@@ -6,5 +6,9 @@ export const storeConstants = {
     SUCCESS: 'create_store_success',
     FAILURE: 'create_store_failure'
   },
-  FETCH_STORE: 'fetch_store'
+  FETCH_STORE: 'fetch_store',
+  DELETE_STORE: {
+    REQUEST: 'delete_store_request',
+    SUCCESS: 'delete_store_success'
+  }
 }

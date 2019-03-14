@@ -6,5 +6,9 @@ export const categoryConstants = {
     SUCCESS: 'create_category_success',
     FAILURE: 'create_category_failure'
   },
-  FETCH_CATEGORY: 'fetch_category'
+  FETCH_CATEGORY: 'fetch_category',
+  DELETE_CATEGORY: {
+    REQUEST: 'delete_category_request',
+    SUCCESS: 'delete_category_success'
+  }
 }

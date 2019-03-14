@@ -49,6 +49,16 @@ export default function(state={}, action) {
         isFetching: false,
         highlights: _.mapKeys(action.payload, 'id')
       }
+    case productConstants.DELETE_PRODUCT.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case productConstants.DELETE_PRODUCT.SUCCESS:
+      return {
+        isFetching: false,
+        productId: action.payload 
+      }
   default:
     return state;
   }

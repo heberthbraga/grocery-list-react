@@ -38,6 +38,16 @@ export default function(state={}, action) {
         isFetching: false,
         [action.payload.id]: action.payload
       }
+    case categoryConstants.DELETE_CATEGORY.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case categoryConstants.DELETE_CATEGORY.SUCCESS:
+      return {
+        isFetching: false,
+        categoryId: action.payload
+      }
   default:
     return state; 
   }

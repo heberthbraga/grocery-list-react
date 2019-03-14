@@ -47,6 +47,19 @@ class PrivateStoreActions {
     }
   }
 
+  deleteStoreRequest = () => {
+    return {
+      type: storeConstants.DELETE_STORE.REQUEST
+    }
+  }
+
+  deleteStoreSuccess = (id) => {
+    return {
+      type: storeConstants.DELETE_STORE.SUCCESS,
+      payload: id
+    }
+  }
+
   fetchStores = () => {
     return (dispatch) => {
       dispatch(this.requestStores());
@@ -115,6 +128,23 @@ class PublicStoreActions {
           dispatch(privateStoreActions.createStoreFailure(errors));
         });
     }
+  }
+
+  deleteStore = (id) => {
+    return (dispatch) => {
+      dispatch(privateStoreActions.deleteStoreRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.delete(`${STORES_URL}/${id}?token=${token}`)
+        .then(response => {
+          const { data } = response;
+
+          dispatch(privateStoreActions.deleteStoreSuccess(data.id));
+
+          refreshHistory.push(`/stores`);
+        });
+    };
   }
 }
 

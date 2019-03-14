@@ -75,13 +75,13 @@ class PublicProductStoreActions {
       const token = localStorage.getItem('api_owner_token');
 
       return axios.delete(`${PRODUCT_STORE_URL}/${id}?token=${token}`)
-      .then(response => {
-        const { data } = response;
+        .then(response => {
+          const { data } = response;
 
-        dispatch(privateProductStoreActions.deleteProductStoreSuccess(data.id));
+          dispatch(privateProductStoreActions.deleteProductStoreSuccess(data.id));
 
-        refreshHistory.push(`/store/show/${storeId}`);
-      });
+          refreshHistory.push(`/store/show/${storeId}`);
+        });
     };
   }
 }

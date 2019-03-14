@@ -37,6 +37,16 @@ export default function(state={}, action) {
         isFetching: false, 
         [action.payload.id]: action.payload 
       }
+    case storeConstants.DELETE_STORE.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case storeConstants.DELETE_STORE.SUCCESS:
+      return {
+        isFetching: false,
+        storeId: action.payload
+      }
   default:
     return state;
   }

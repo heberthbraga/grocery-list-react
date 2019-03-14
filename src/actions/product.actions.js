@@ -65,6 +65,19 @@ class PrivateProductActions {
     }
   }
 
+  deleteProductRequest = () => {
+    return {
+      type: productConstants.DELETE_PRODUCT.REQUEST
+    }
+  }
+
+  deleteProductSuccess = (id) => {
+    return {
+      type: productConstants.DELETE_PRODUCT.SUCCESS,
+      payload: id
+    }
+  }
+
   fetchProducts = () => {
     return (dispatch) => {
       dispatch(this.requestProducts());
@@ -187,6 +200,23 @@ class PublicProductActions {
     return (dispatch) => {
       return request;
     }
+  }
+
+  deleteProduct = (id) => {
+    return (dispatch) => {
+      dispatch(privateProductActions.deleteProductRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.delete(`${PRODUCTS_URL}/${id}?token=${token}`)
+        .then(response => {
+          const { data } = response;
+
+          dispatch(privateProductActions.deleteProductSuccess(data.id));
+
+          refreshHistory.push(`/products`);
+        });
+    };
   }
 }
 
