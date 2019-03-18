@@ -10,5 +10,10 @@ export const storeConstants = {
   DELETE_STORE: {
     REQUEST: 'delete_store_request',
     SUCCESS: 'delete_store_success'
+  },
+  UPDATE_STORE: {
+    REQUEST: 'update_store_request',
+    SUCCESS: 'update_store_success',
+    FAILURE: 'update_store_failure'
   }
 }

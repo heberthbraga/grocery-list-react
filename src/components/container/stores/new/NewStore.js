@@ -58,6 +58,7 @@ class NewStore extends Component {
         onSubmit={this.handleSubmit} 
         onChange={this.handleChange} 
         errors={errors}
+        existingStore={null}
       />
     );
   }

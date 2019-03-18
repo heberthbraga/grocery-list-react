@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Input, Button, Icon, AutoComplete } from 'antd';
+import { Input, AutoComplete } from 'antd';
 
 const Search = Input.Search;
 const Option = AutoComplete.Option;

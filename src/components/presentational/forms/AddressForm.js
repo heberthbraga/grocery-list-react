@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import React, { Fragment } from 'react';
+import Select from 'react-select';
 
 import {
-  Form, Input, Select
+  Form, Input
 } from 'antd';
 
-import { states, hasFormError } from '../../../helpers';
+import { states, hasFormError, fieldValue } from '../../../helpers';
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const FIELDS = {
   street: {
@@ -36,8 +37,19 @@ const FIELDS = {
   }
 }
 
-const renderFields = (errors, onChange) => {
+const renderOptions = () => {
+  return(
+    _.map(states, (state, key) => {
+      return { value: key, label: state };
+    })
+  );
+}
+
+const renderFields = (errors, onChange, existingAddress) => {
   return _.map(FIELDS, (field, key) => {
+    let fieldId = _.split(field.id, '.')[1];
+    let value = fieldValue(fieldId, existingAddress);
+
     return (
       <Form.Item
         key={key}
@@ -50,33 +62,30 @@ const renderFields = (errors, onChange) => {
       >
         {field.type === 'text' ? 
           <Input 
-            placeholder={field.label} 
+            placeholder={field.label}  
             id={key}
             name={field.id}
             onChange={onChange}
+            defaultValue={value}
           /> 
           :
           <Select
-            placeholder={field.label}
+            placeholder='Selecione um Estado'
             onChange={onChange}
             name={field.id}
-          >
-            {
-              _.map(states, (state, key) => {
-                return <Option key={key} value={key}>{state}</Option>;
-              })
-            }
-          </Select>
+            value={{ label: states[value], value: value }}
+            options={renderOptions()}
+          />
         }
       </Form.Item>
     )
   });
 }
 
-export default ({ onChange, errors }) => (
+export default ({ onChange, errors, existingAddress }) => (
   <Fragment>
     {
-      renderFields(errors, onChange)
+      renderFields(errors, onChange, existingAddress)
     }
   </Fragment>
 );

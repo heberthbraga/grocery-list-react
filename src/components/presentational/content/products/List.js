@@ -28,7 +28,7 @@ const generateListData = (products) => {
   });
 }
 
-export default ({ products, onEditClick, onDeleteClick }) => (
+export default ({ products, onDeleteClick }) => (
   <Container>
     <Header target='/product/new' title='Novo Produto' />
     <List 
@@ -46,7 +46,7 @@ export default ({ products, onEditClick, onDeleteClick }) => (
           key={product.id}
           actions={
             [
-              <Icon type="edit" onClick={() => onEditClick(product.id)} />,
+              <Icon type="edit" />,
               <DeleteAction id={product.id} targetAction={onDeleteClick} />
             ]
           }

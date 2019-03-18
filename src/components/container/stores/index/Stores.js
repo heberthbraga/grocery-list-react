@@ -9,7 +9,6 @@ class Stores extends Component {
   constructor(props) {
     super(props);
 
-    this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
@@ -18,10 +17,6 @@ class Stores extends Component {
       const { storeActions } = this.props;
       storeActions.fetchStoresIfNeeded();
     }
-  }
-
-  onEditClick = (storeId) => {
-    console.log(storeId);
   }
 
   onDeleteClick = (storeId) => {
@@ -41,7 +36,6 @@ class Stores extends Component {
       <Loading loading={!stores}>
         <List 
           stores={stores} 
-          onEditClick={this.onEditClick}
           onDeleteClick={this.onDeleteClick}
         />
       </Loading>

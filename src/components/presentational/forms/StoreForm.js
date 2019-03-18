@@ -7,7 +7,7 @@ import {
   Form, Input, Button, Upload, Icon, Row
 } from 'antd';
 
-import { hasFormError } from '../../../helpers';
+import { hasFormError, fieldValue } from '../../../helpers';
 
 import AddressForm from './AddressForm';
 
@@ -49,8 +49,10 @@ const Title = styled.h1`
   text-align: left;
 `;
 
-const renderFields = (errors, onChange) => {
+const renderFields = (errors, onChange, existingStore) => {
   return _.map(FIELDS, (field, key) => {
+    const value = fieldValue(field.id, existingStore);
+
     return (
       <Form.Item
         key={key}
@@ -67,6 +69,7 @@ const renderFields = (errors, onChange) => {
             id={key}
             name={field.id}
             onChange={onChange}
+            defaultValue={value}
           />
           :
           <Upload name={field.id} listType="picture">
@@ -81,17 +84,21 @@ const renderFields = (errors, onChange) => {
   });
 }
 
-export default ({ onSubmit, onChange, errors }) => (
+export default ({ onSubmit, onChange, errors, existingStore }) => (
   <Container>
     <Row style={{ marginBottom: 20 }}>
-      <Title>Cadastrar Loja</Title>
+      <Title>{existingStore ? 'Editar Loja' : 'Cadastrar Loja'}</Title>
     </Row>
     <Row>
       <Form onSubmit={onSubmit}>
         {
-          renderFields(errors, onChange)
+          renderFields(errors, onChange, existingStore)
         }
-        <AddressForm onChange={onChange} errors={errors} />
+        <AddressForm 
+          onChange={onChange} 
+          errors={errors}
+          existingAddress={existingStore ? existingStore.address : null} 
+        />
         <Form.Item
           wrapperCol={{ xs: {span: 12, offset: 0}, sm: {span: 8, offset: 4} }}
         >

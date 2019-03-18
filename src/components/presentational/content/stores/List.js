@@ -45,7 +45,9 @@ const columns = [
     key: 'action',
     render: (text, store) => (
       <span>
-        <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        <Link to={`/store/edit/${store.key}`}>
+          <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        </Link>
         <Divider type="vertical" />
         <DeleteAction id={store.key} targetAction={store.onDelete}  />
       </span>
@@ -53,7 +55,7 @@ const columns = [
   }
 ];
 
-const renderData = (stores, onEditClick, onDeleteClick) => {
+const renderData = (stores, onDeleteClick) => {
   return _.map(stores, (store) => {
     return {
       key: store.id,
@@ -62,18 +64,17 @@ const renderData = (stores, onEditClick, onDeleteClick) => {
       website: store.website,
       created_at: store.created_at,
       updated_at: store.updated_at,
-      onEdit: onEditClick,
       onDelete: onDeleteClick
     }
   });
 }
 
-export default ({ stores, onEditClick, onDeleteClick}) => (
+export default ({ stores, onDeleteClick}) => (
   <Container>
     <Header target='/store/new' title='Nova Loja' />
     <Table 
       columns={columns} 
-      dataSource={renderData(stores, onEditClick, onDeleteClick)} 
+      dataSource={renderData(stores, onDeleteClick)} 
       style={{ overflowX: 'auto' }}
     />
   </Container>

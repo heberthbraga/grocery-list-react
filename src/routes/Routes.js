@@ -13,6 +13,7 @@ import Analytics from '../components/container/analytics/index';
 import Stores from '../components/container/stores/index';
 import NewStore from '../components/container/stores/new';
 import ShowStore from '../components/container/stores/show';
+import EditStore from '../components/container/stores/edit';
 import Categories from '../components/container/categories/index';
 import NewCategory from '../components/container/categories/new';
 import ShowCategory from '../components/container/categories/show';
@@ -68,6 +69,11 @@ export const Routes = ({ isAuthenticated, errorMessage }) => {
           isAuthenticated={isAuthenticated} 
           component={ShowStore} 
           path='/store/show/:id' 
+        />
+        <SecuredRoute 
+          isAuthenticated={isAuthenticated} 
+          component={EditStore} 
+          path='/store/edit/:id' 
         />
         <SecuredRoute 
           isAuthenticated={isAuthenticated} 

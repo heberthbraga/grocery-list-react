@@ -9,7 +9,6 @@ class Categories extends Component {
   constructor(props) {
     super(props);
 
-    this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
@@ -18,10 +17,6 @@ class Categories extends Component {
       const { categoryActions } = this.props;
       categoryActions.fetchCategoriesIfNeeded();
     }
-  }
-
-  onEditClick = (categoryId) => {
-    console.log(categoryId);
   }
 
   onDeleteClick = (categoryId) => {
@@ -41,7 +36,6 @@ class Categories extends Component {
       <Loading loading={!categories}>
         <List 
           categories={categories} 
-          onEditClick={this.onEditClick}
           onDeleteClick={this.onDeleteClick}
         />
       </Loading>

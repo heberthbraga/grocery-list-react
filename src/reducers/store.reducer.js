@@ -33,7 +33,6 @@ export default function(state={}, action) {
       }
     case storeConstants.FETCH_STORE:
       return { 
-        ...state, 
         isFetching: false, 
         [action.payload.id]: action.payload 
       }
@@ -46,6 +45,23 @@ export default function(state={}, action) {
       return {
         isFetching: false,
         storeId: action.payload
+      }
+    case storeConstants.UPDATE_STORE.REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+      }
+    case storeConstants.UPDATE_STORE.SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        [action.payload.id]: action.payload
+      }
+    case storeConstants.UPDATE_STORE.FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errors: action.payload
       }
   default:
     return state;

@@ -3,7 +3,8 @@ import axios from 'axios';
 import { config, history } from '../helpers';
 import { authConstants } from '../constants';
 
-const AUTH_URL = `${config.API_URL}/auth/login`;
+const AUTH_URL = `${config.API_URL}/auth`;
+const LOGIN_URL = `${AUTH_URL}/login`;
 
 class PrivateAuthActions {
   signInRequest = () => {
@@ -66,7 +67,7 @@ class PublicAuthActions {
     return dispatch => {
       dispatch(privateActions.signInRequest());
 
-      return axios.post(`${AUTH_URL}`, values)
+      return axios.post(`${LOGIN_URL}`, values)
         .then(response => {
           const { data: { token } } = response;
 

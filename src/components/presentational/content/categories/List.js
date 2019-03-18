@@ -58,7 +58,7 @@ const columns = [
   }
 ];
 
-const renderData = (categories, onEditClick, onDeleteClick) => {
+const renderData = (categories, onDeleteClick) => {
   return _.map(categories, (category) => {
     return {
       key: category.id,
@@ -67,18 +67,17 @@ const renderData = (categories, onEditClick, onDeleteClick) => {
       subcategory: category.subcategory,
       created_at: category.created_at,
       updated_at: category.updated_at,
-      onEdit: onEditClick,
       onDelete: onDeleteClick
     }
   });
 }
 
-export default ({ categories, onEditClick, onDeleteClick }) => (
+export default ({ categories, onDeleteClick }) => (
   <Container>
     <Header target='/category/new' title='Nova Categoria' />
     <Table 
       columns={columns} 
-      dataSource={renderData(categories, onEditClick, onDeleteClick)} 
+      dataSource={renderData(categories, onDeleteClick)} 
       style={{ overflowX: 'auto' }}
     />
   </Container>

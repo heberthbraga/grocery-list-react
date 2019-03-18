@@ -13,7 +13,7 @@ class ShowCategory extends Component {
 
   render() {
     const { category } = this.props;
-
+    
     return (
       <Loading loading={!category}>
         <Show category={category} />

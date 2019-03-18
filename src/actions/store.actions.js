@@ -60,6 +60,26 @@ class PrivateStoreActions {
     }
   }
 
+  updateStoreRequest = () => {
+    return {
+      type: storeConstants.UPDATE_STORE.REQUEST
+    }
+  }
+
+  updateStoreSuccess = (data) => {
+    return {
+      type: storeConstants.UPDATE_STORE.SUCCESS,
+      payload: data
+    }
+  }
+
+  updateStoreFailure = (errors) => {
+    return {
+      type: storeConstants.UPDATE_STORE.FAILURE,
+      payload: errors
+    }
+  }
+
   fetchStores = () => {
     return (dispatch) => {
       dispatch(this.requestStores());
@@ -102,7 +122,7 @@ class PublicStoreActions {
     return (dispatch) => {
       return request.then(({data}) => {
         dispatch(privateStoreActions.fetchStoreSuccess(data));
-      });
+      }).catch();
     }
   }
 
@@ -118,7 +138,7 @@ class PublicStoreActions {
 
           dispatch(privateStoreActions.createStoreSuccess(data));
 
-          refreshHistory.push('/');
+          refreshHistory.push('/stores');
         })
         .catch(error => {
           const { response : { data: { message } } } = error;
@@ -126,6 +146,30 @@ class PublicStoreActions {
           const errors = JSON.parse(message);
 
           dispatch(privateStoreActions.createStoreFailure(errors));
+        });
+    }
+  }
+
+  updateStore = (storeId, values) => {
+    return (dispatch) => {
+      dispatch(privateStoreActions.updateStoreRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+      
+      return axios.put(`${STORES_URL}/${storeId}?token=${token}`, values)
+        .then(response => {
+          const { data } = response;
+
+          dispatch(privateStoreActions.updateStoreSuccess(data));
+
+          refreshHistory.push('/stores');
+        })
+        .catch(error => {
+          const { response : { data: { message } } } = error;
+
+          const errors = JSON.parse(message);
+
+          dispatch(privateStoreActions.updateStoreFailure(errors));
         });
     }
   }

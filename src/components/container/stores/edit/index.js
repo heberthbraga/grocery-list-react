@@ -1,23 +1,24 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { storeActions } from '../../../../actions';
+import EditStore from  './EditStore';
 
 import { Form } from 'antd';
 
-import NewStore from './NewStore';
+import { storeActions } from '../../../../actions';
 
 const mapDispatchToProps = dispatch => ({
   storeActions: bindActionCreators(storeActions, dispatch)
 });
 
-const mapStateToProps = (state) => {
-  const { data, errors } = state.store;
+const mapStateToProps = (state, ownProps) => {
+  const { store, store: { data, errors } } = state;
   return {
     store: data,
+    existingStore: store[ownProps.match.params.id],
     errors
   }
 }
 
-const StoreFormObj = Form.create({ name: 'formStore' })(NewStore);
+const StoreFormObj = Form.create({ name: 'formStore' })(EditStore);
 export default connect(mapStateToProps, mapDispatchToProps)(StoreFormObj);

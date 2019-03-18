@@ -8,7 +8,6 @@ class Products extends Component {
   constructor(props) {
     super(props);
 
-    this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
@@ -17,10 +16,6 @@ class Products extends Component {
       const { productActions } = this.props;
       productActions.fetchProductsIfNeeded();
     }
-  }
-
-  onEditClick = (productId) => {
-    console.log(productId);
   }
 
   onDeleteClick = (productId) => {
@@ -40,7 +35,6 @@ class Products extends Component {
       <Loading loading={!products}>
         <List 
           products={products} 
-          onEditClick={this.onEditClick}
           onDeleteClick={this.onDeleteClick}
         />
       </Loading>
