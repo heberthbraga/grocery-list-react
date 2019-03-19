@@ -17,6 +17,7 @@ import EditStore from '../components/container/stores/edit';
 import Categories from '../components/container/categories/index';
 import NewCategory from '../components/container/categories/new';
 import ShowCategory from '../components/container/categories/show';
+import EditCategory from '../components/container/categories/edit';
 
 export const Routes = ({ isAuthenticated, errorMessage }) => {
   return (
@@ -89,6 +90,11 @@ export const Routes = ({ isAuthenticated, errorMessage }) => {
           isAuthenticated={isAuthenticated} 
           component={ShowCategory} 
           path='/category/show/:id' 
+        />
+        <SecuredRoute 
+          isAuthenticated={isAuthenticated} 
+          component={EditCategory} 
+          path='/category/edit/:id' 
         />
         <Route path="*" render={() =>(
           isAuthenticated ? (

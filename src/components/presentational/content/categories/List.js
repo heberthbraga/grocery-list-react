@@ -50,7 +50,9 @@ const columns = [
     key: 'action',
     render: (text, category) => (
       <span>
-        <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        <Link to={`/category/edit/${category.key}`}>
+          <Icon type="edit" style={{ color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+        </Link>
         <Divider type="vertical" />
         <DeleteAction id={category.key} targetAction={category.onDelete}  />
       </span>

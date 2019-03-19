@@ -61,6 +61,26 @@ class PrivateCategoryActions {
     }
   }
 
+  updateCategoryRequest = () => {
+    return {
+      type: categoryConstants.UPDATE_CATEGORY.REQUEST
+    }
+  }
+
+  updateCategorySuccess = (data) => {
+    return {
+      type: categoryConstants.UPDATE_CATEGORY.SUCCESS,
+      payload: data
+    }
+  }
+
+  updateCategoryFailure = (errors) => {
+    return {
+      type: categoryConstants.UPDATE_CATEGORY.FAILURE,
+      payload: errors
+    }
+  }
+
   fetchCategories = () => {
     return (dispatch) => {
       dispatch(this.requestCategories());
@@ -159,6 +179,30 @@ class PublicCategoryActions {
           refreshHistory.push(`/categories`);
         });
     };
+  }
+
+  updateCategory = (categoryId, values) => {
+    return (dispatch) => {
+      dispatch(privateCategoryActions.updateCategoryRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.put(`${CATEGORIES_URL}/${categoryId}?token=${token}`, values)
+        .then(response => {
+          const { data } = response;
+
+          dispatch(privateCategoryActions.updateCategorySuccess(data));
+
+          refreshHistory.push('/categories');
+        })
+        .catch(error => {
+          const { response : { data: { message } } } = error;
+
+          const errors = JSON.parse(message);
+
+          dispatch(privateCategoryActions.updateCategoryFailure(errors));
+        });
+    }
   }
 }
 

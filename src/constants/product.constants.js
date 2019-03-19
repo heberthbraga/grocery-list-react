@@ -12,5 +12,10 @@ export const productConstants = {
   DELETE_PRODUCT: {
     REQUEST: 'delete_product_request',
     SUCCESS: 'delete_product_success'
+  },
+  UPDATE_PRODUCT: {
+    REQUEST: 'update_product_request',
+    SUCCESS: 'update_product_success',
+    FAILURE: 'update_product_failure'
   }
 }

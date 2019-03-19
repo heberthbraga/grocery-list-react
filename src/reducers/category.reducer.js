@@ -48,6 +48,23 @@ export default function(state={}, action) {
         isFetching: false,
         categoryId: action.payload
       }
+    case categoryConstants.UPDATE_CATEGORY.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case categoryConstants.UPDATE_CATEGORY.SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        [action.payload.id]: action.payload
+      }
+    case categoryConstants.UPDATE_CATEGORY.FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errors: action.payload
+      }
   default:
     return state; 
   }

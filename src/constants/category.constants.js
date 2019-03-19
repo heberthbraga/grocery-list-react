@@ -10,5 +10,10 @@ export const categoryConstants = {
   DELETE_CATEGORY: {
     REQUEST: 'delete_category_request',
     SUCCESS: 'delete_category_success'
+  },
+  UPDATE_CATEGORY: {
+    REQUEST: 'update_category_request',
+    SUCCESS: 'update_category_success',
+    FAILURE: 'update_category_failure'
   }
 }

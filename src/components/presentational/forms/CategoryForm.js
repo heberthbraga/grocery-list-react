@@ -3,10 +3,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { 
-  Row, Form, Input, Select, Button
+  Row, Form, Input, Button
 } from 'antd';
+import Select from 'react-select';
 
-import { hasFormError } from '../../../helpers';
+import { hasFormError, fieldValue } from '../../../helpers';
 
 const Container = styled.div`
   padding-top: 50px;
@@ -20,7 +21,6 @@ const Title = styled.h1`
 `;
 
 const { TextArea } = Input;
-const { Option } = Select;
 
 const FIELDS = {
   name: {
@@ -39,12 +39,43 @@ const FIELDS = {
     type: 'select',
     id: 'parent_id',
     label: 'Categoria Pai',
+    placeholder: 'Selecione Uma Categoria Pai',
     required: false
   }
 }
 
-const renderFields = (errors, onChange, parentCategories) => {
+const renderParentOptions = (parentCategories) => {
+  return(
+    _.map(parentCategories, (parent, parentKey) => {
+      return { value: parentKey, label: parent.name };
+    })
+  );
+}
+
+const renderSelect = (field, onChange, parentCategories, defaultValue) => {
+
+  let items = {
+    placeholder: field.placeholder, 
+    onChange: onChange, 
+    name: field.id, 
+    options: renderParentOptions(parentCategories)
+  }
+
+  if (field.id === 'parent_id' && defaultValue && parentCategories) {
+    const currentParent = parentCategories[defaultValue];
+
+    if (currentParent) {
+      items['value'] = { label: currentParent.name, value: defaultValue } 
+    }
+  }
+
+  return <Select {...items} />
+}
+
+const renderFields = (errors, onChange, parentCategories, existingCategory) => {
   return _.map(FIELDS, (field, key) => {
+    const defaultValue = fieldValue(field.id, existingCategory);
+
     return (
         <Form.Item
           key={key}
@@ -61,6 +92,7 @@ const renderFields = (errors, onChange, parentCategories) => {
             id={key}
             name={field.id}
             onChange={onChange}
+            defaultValue={defaultValue}
           />
         : field.type === 'textarea' ?
           <TextArea 
@@ -69,26 +101,17 @@ const renderFields = (errors, onChange, parentCategories) => {
             name={field.id}
             onChange={onChange}
             rows={4}
+            defaultValue={defaultValue}
           />
         :
-          <Select
-            placeholder={field.label}
-            onChange={onChange}
-            name={field.id}
-          >
-            {
-              _.map(parentCategories, (parent, parentKey) => {
-                return <Option key={parentKey} value={parentKey}>{parent.name}</Option>;
-              })
-            }
-          </Select>
+          renderSelect(field, onChange, parentCategories, defaultValue)
         } 
       </Form.Item>
     );
   });
 }
 
-export default ({ onSubmit, onChange, errors, parentCategories }) => (
+export default ({ onSubmit, onChange, errors, parentCategories, existingCategory }) => (
   <Container>
     <Row style={{ marginBottom: 20 }}>
       <Title>Adicionar Categoria</Title>
@@ -96,7 +119,7 @@ export default ({ onSubmit, onChange, errors, parentCategories }) => (
     <Row>
       <Form onSubmit={onSubmit}>
         {
-          renderFields(errors, onChange, parentCategories)
+          renderFields(errors, onChange, parentCategories, existingCategory)
         }
         <Form.Item
           wrapperCol={{ xs: {span: 12, offset: 0}, sm: {span: 8, offset: 4} }}

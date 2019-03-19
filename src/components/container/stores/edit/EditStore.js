@@ -79,7 +79,6 @@ class EditStore extends Component {
 
   render() {
     const { existingStore, errors } = this.props;
-    console.log(errors);
 
     return(
       <Loading loading={!existingStore}>
