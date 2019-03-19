@@ -9,6 +9,7 @@ import Dashboard from '../components/container/dashboard';
 import Products from '../components/container/products/index';
 import NewProduct from '../components/container/products/new';
 import ShowProduct from '../components/container/products/show';
+import EditProduct from '../components/container/products/edit';
 import Analytics from '../components/container/analytics/index';
 import Stores from '../components/container/stores/index';
 import NewStore from '../components/container/stores/new';
@@ -55,6 +56,11 @@ export const Routes = ({ isAuthenticated, errorMessage }) => {
           isAuthenticated={isAuthenticated} 
           component={ShowProduct} 
           path='/product/show/:id' 
+        />
+        <SecuredRoute 
+          isAuthenticated={isAuthenticated} 
+          component={EditProduct} 
+          path='/product/edit/:id' 
         />
         <SecuredRoute 
           isAuthenticated={isAuthenticated} 

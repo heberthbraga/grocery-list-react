@@ -53,6 +53,7 @@ class NewProduct extends Component {
           onSubmit={this.handleSubmit} 
           onChange={this.handleChange}
           errors={errors}
+          existingProduct={null}
         />
       </Loading>
     );

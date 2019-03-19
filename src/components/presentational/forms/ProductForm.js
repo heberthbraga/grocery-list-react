@@ -3,10 +3,12 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { 
-  Row, Form, Input, Button, Upload, Icon, Select, InputNumber
+  Row, Form, Input, Button, Upload, Icon, InputNumber
 } from 'antd';
 
-import { hasFormError } from '../../../helpers';
+import Select from 'react-select';
+
+import { hasFormError, fieldValue } from '../../../helpers';
 
 const Container = styled.div`
   padding-top: 50px;
@@ -49,32 +51,84 @@ const FIELDS = {
   }
 }
 
-const { Option, OptGroup } = Select;
+const groupStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+};
+
+const groupBadgeStyles = {
+  backgroundColor: '#EBECF0',
+  borderRadius: '2em',
+  color: '#172B4D',
+  display: 'inline-block',
+  fontSize: 12,
+  fontWeight: 'normal',
+  lineHeight: '1',
+  minWidth: 1,
+  padding: '0.16666666666667em 0.5em',
+  textAlign: 'center',
+};
+
+const formatGroupLabel = data => (
+  <div style={groupStyles}>
+    <span>{data.label}</span>
+    <span style={groupBadgeStyles}>{data.options.length}</span>
+  </div>
+);
 
 const renderCategoryOptions = (categories) => {
-  return _.map(categories, (category, key) => {
+  return _.map(categories, (category) => {
     const subcategories = category.subcategories;
 
     if (subcategories.length > 0) {
-      return (
-        <OptGroup label={category.name} key={key}>
+      return( {
+        label: category.name,
+        options:  _.map(subcategories, (subcategory) => {
+          return { label: subcategory.name, value: subcategory.id };
+        })
+        }
+      )
+    } else {
+      if (!category.subcategory) {
+        return(
           {
-            _.map(subcategories, (subcategory, subKey) => {
-              return <Option key={subKey} value={subcategory.id}>{subcategory.name}</Option>
-            })
+            label: category.name, value: category.id
           }
-        </OptGroup>
-      );
-    } else if (!category.subcategory) {
-      return (
-        <Option key={key} value={category.id}>{category.name}</Option>
-      );
+        )
+      } else {
+        return {}
+      }
     }
-  })
+  });
 }
 
-const renderFields = (errors, onChange, categories) => {
+const renderSelect = (onChange, key, categories, existingProduct, defaultValue) => {
+  let items = {
+    placeholder: 'Selecione as categorias', 
+    onChange: onChange, 
+    name: key,
+    options: _.reject(renderCategoryOptions(categories), _.isEmpty)
+  }
+
+  return (
+    <Select 
+      formatGroupLabel={formatGroupLabel}
+      {...items}
+    />
+  )
+}
+
+const renderFields = (errors, onChange, categories, existingProduct) => {
   return _.map(FIELDS, (field, key) => {
+    let value = fieldValue(field.id, existingProduct);
+    
+    if (field.id === 'categories') {
+      value = _.map(existingProduct.categories, (category) => {
+        return { label: category.name, value: category.id }
+      });
+    }
+
     return (
       <Form.Item
         key={key}
@@ -91,23 +145,16 @@ const renderFields = (errors, onChange, categories) => {
             id={key}
             name={field.id}
             onChange={onChange}
+            defaultValue={value}
           />
           : field.type === 'select' ?
-          <Select
-            mode="multiple"
-            placeholder={field.placeholder}
-            onChange={onChange}
-            name={key}
-          >
-            {
-              renderCategoryOptions(categories)
-            }
-          </Select>
+            renderSelect(onChange, key, categories, existingProduct, value)
           : field.type === 'number' ?
           <InputNumber 
             id={key}
             name={field.id}
             onChange={onChange}
+            defaultValue={value}
           />
           :
           <Upload name={field.id} listType="picture">
@@ -121,15 +168,15 @@ const renderFields = (errors, onChange, categories) => {
   });
 }
 
-export default ({ categories, onSubmit, onChange, errors }) => (
+export default ({ categories, onSubmit, onChange, errors, existingProduct }) => (
   <Container>
     <Row style={{ marginBottom: 20 }}>
-      <Title>Adicionar Produto</Title>
+      <Title>{existingProduct ? 'Editar Produto' : 'Adicionar Produto'}</Title>
     </Row>
     <Row>
       <Form onSubmit={onSubmit}>
         {
-          renderFields(errors, onChange, categories)
+          renderFields(errors, onChange, categories, existingProduct)
         }
         <Form.Item
           wrapperCol={{ xs: {span: 12, offset: 0}, sm: {span: 8, offset: 4} }}

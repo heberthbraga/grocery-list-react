@@ -78,6 +78,26 @@ class PrivateProductActions {
     }
   }
 
+  updateProductRequest = () => {
+    return {
+      type: productConstants.UPDATE_PRODUCT.REQUEST
+    }
+  }
+
+  updateProductSuccess = (data) => {
+    return {
+      type: productConstants.UPDATE_PRODUCT.SUCCESS,
+      payload: data
+    }
+  }
+
+  updateProductFailure = (errors) => {
+    return {
+      type: productConstants.UPDATE_PRODUCT.FAILURE,
+      payload: errors
+    }
+  }
+
   fetchProducts = () => {
     return (dispatch) => {
       dispatch(this.requestProducts());
@@ -217,6 +237,30 @@ class PublicProductActions {
           refreshHistory.push(`/products`);
         });
     };
+  }
+
+  updateProduct = (productId, values) => {
+    return (dispatch) => {
+      dispatch(privateProductActions.updateProductRequest());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.put(`${PRODUCTS_URL}/${productId}?token=${token}`, values)
+        .then(response => {
+          const { data } = response;
+
+          dispatch(privateProductActions.updateProductSuccess(data));
+
+          refreshHistory.push('/products');
+        })
+        .catch(error => {
+          const { response : { data: { message } } } = error;
+
+          const errors = JSON.parse(message);
+
+          dispatch(privateProductActions.updateProductFailure(errors));
+        });
+    }
   }
 }
 

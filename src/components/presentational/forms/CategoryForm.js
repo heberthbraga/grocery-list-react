@@ -114,7 +114,7 @@ const renderFields = (errors, onChange, parentCategories, existingCategory) => {
 export default ({ onSubmit, onChange, errors, parentCategories, existingCategory }) => (
   <Container>
     <Row style={{ marginBottom: 20 }}>
-      <Title>Adicionar Categoria</Title>
+      <Title>{existingCategory ? 'Editar Categoria' : 'Adicionar Categoria'}</Title>
     </Row>
     <Row>
       <Form onSubmit={onSubmit}>

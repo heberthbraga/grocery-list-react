@@ -54,6 +54,7 @@ class NewCategory extends Component {
           onChange={this.handleChange}
           errors={errors} 
           parentCategories={parentCategories}
+          existingCategory={null}
         />
       </Loading>
     );

@@ -59,6 +59,23 @@ export default function(state={}, action) {
         isFetching: false,
         productId: action.payload 
       }
+    case productConstants.UPDATE_PRODUCT.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case productConstants.UPDATE_PRODUCT.SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        [action.payload.id]: action.payload
+      }
+    case productConstants.UPDATE_PRODUCT.FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errors: action.payload
+      }
   default:
     return state;
   }

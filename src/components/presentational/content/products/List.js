@@ -46,7 +46,9 @@ export default ({ products, onDeleteClick }) => (
           key={product.id}
           actions={
             [
-              <Icon type="edit" />,
+              <Link to={`/product/edit/${product.id}`}>
+                <Icon type="edit" style={{ cursor: 'pointer', color: 'rgba(0,0,0,.25)', fontSize: '16px' }} />
+              </Link>,
               <DeleteAction id={product.id} targetAction={onDeleteClick} />
             ]
           }
@@ -59,7 +61,7 @@ export default ({ products, onDeleteClick }) => (
           <Meta 
             title={
               <Link to={`/product/show/${product.id}`}>
-              {product.title}
+                {product.title}
               </Link>
             }
           />
