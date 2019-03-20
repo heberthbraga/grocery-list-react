@@ -30,8 +30,7 @@ class NewProduct extends Component {
       const { name, value } = e.target;
       this.setState({ [name]: value })
     } else {
-      console.log(e);
-      this.setState({ category_ids: _.map(e).join(',') });
+      this.setState({ category_ids: _.map(e, 'value').join(',') });
     }
   }
 

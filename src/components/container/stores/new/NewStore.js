@@ -24,7 +24,17 @@ class NewStore extends Component {
   }
 
   handleChange = (e) => {
-    const { name, value } = e.target;
+    let name = '';
+    let value = '';
+
+    if (e.target) {
+      name = e.target.name;
+      value = e.target.value;
+    } else {
+      name = 'address.state';
+      value = e.value
+    }
+    
     const { address } = this.state;
 
     let storeCopy = Object.assign({}, this.state);

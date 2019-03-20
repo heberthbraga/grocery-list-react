@@ -45,6 +45,25 @@ const renderOptions = () => {
   );
 }
 
+const renderSelect = (onChange, field, defaultValue) => {
+  let items = {
+    placeholder: 'Selecione um Estado', 
+    onChange: onChange, 
+    name: field.id,
+    options: renderOptions()
+  }
+
+  if (defaultValue) {
+    items['value'] = { label: states[defaultValue], value: defaultValue };
+  }
+
+  return (
+    <Select
+      {...items}
+    />
+  );
+}
+
 const renderFields = (errors, onChange, existingAddress) => {
   return _.map(FIELDS, (field, key) => {
     let fieldId = _.split(field.id, '.')[1];
@@ -69,13 +88,7 @@ const renderFields = (errors, onChange, existingAddress) => {
             defaultValue={value}
           /> 
           :
-          <Select
-            placeholder='Selecione um Estado'
-            onChange={onChange}
-            name={field.id}
-            value={{ label: states[value], value: value }}
-            options={renderOptions()}
-          />
+          renderSelect(onChange, field, value)
         }
       </Form.Item>
     )

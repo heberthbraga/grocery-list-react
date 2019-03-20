@@ -3,7 +3,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { 
-  Row, Form, Input, Button, Upload, Icon, InputNumber
+  Row, Form, Input, Button, Upload, Icon
 } from 'antd';
 
 import Select from 'react-select';
@@ -103,7 +103,7 @@ const renderCategoryOptions = (categories) => {
   });
 }
 
-const renderSelect = (onChange, key, categories, existingProduct, defaultValue) => {
+const renderSelect = (onChange, key, categories, defaultValue) => {
   let items = {
     placeholder: 'Selecione as categorias', 
     onChange: onChange, 
@@ -111,8 +111,13 @@ const renderSelect = (onChange, key, categories, existingProduct, defaultValue) 
     options: _.reject(renderCategoryOptions(categories), _.isEmpty)
   }
 
+  if (defaultValue) {
+    items['value'] = defaultValue;
+  }
+
   return (
     <Select 
+      isMulti
       formatGroupLabel={formatGroupLabel}
       {...items}
     />
@@ -123,7 +128,7 @@ const renderFields = (errors, onChange, categories, existingProduct) => {
   return _.map(FIELDS, (field, key) => {
     let value = fieldValue(field.id, existingProduct);
     
-    if (field.id === 'categories') {
+    if (field.id === 'categories' && existingProduct) {
       value = _.map(existingProduct.categories, (category) => {
         return { label: category.name, value: category.id }
       });
@@ -148,10 +153,11 @@ const renderFields = (errors, onChange, categories, existingProduct) => {
             defaultValue={value}
           />
           : field.type === 'select' ?
-            renderSelect(onChange, key, categories, existingProduct, value)
+            renderSelect(onChange, key, categories, value)
           : field.type === 'number' ?
-          <InputNumber 
+          <Input 
             id={key}
+            type="number"
             name={field.id}
             onChange={onChange}
             defaultValue={value}
