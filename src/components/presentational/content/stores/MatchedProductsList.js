@@ -21,7 +21,7 @@ const loadMore = (onLoadMore, visible, products) => (
   visible < _.toArray(products).length &&
   <Button 
     onClick={onLoadMore} 
-    style={{ margin: '10px auto', display: 'block' }}
+    style={{ margin: 10, display: 'block' }}
   >
   Mais
   <Icon type="plus" />

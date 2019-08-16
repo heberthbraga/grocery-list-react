@@ -65,6 +65,17 @@ export default function(state={}, action) {
         isFetching: false,
         errors: action.payload
       }
+    case categoryConstants.REQUEST_ITEMS_HISTORY:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case categoryConstants.RECEIVE_ITEMS_HISTORY:
+      return {
+        ...state,
+        isFetching: false,
+        itemsHistory: action.payload
+      }
   default:
     return state; 
   }

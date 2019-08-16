@@ -15,5 +15,7 @@ export const categoryConstants = {
     REQUEST: 'update_category_request',
     SUCCESS: 'update_category_success',
     FAILURE: 'update_category_failure'
-  }
+  },
+  REQUEST_ITEMS_HISTORY: 'request_items_history',
+  RECEIVE_ITEMS_HISTORY: 'receive_items_history'
 }

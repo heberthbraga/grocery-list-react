@@ -5,7 +5,8 @@ import { config, refreshHistory } from '../helpers';
 import { categoryConstants } from '../constants';
 
 const CATEGORIES_URL = `${config.SECURED_API_URL}/categories`;
-const PARENT_CATEGORIES_URL = `${config.SECURED_API_URL}/categories/fetch/parents`;
+const PARENT_CATEGORIES_URL = `${CATEGORIES_URL}/fetch/parents`;
+const ITEMS_HISTORY_URL = `${CATEGORIES_URL}/fetch/items_history`;
 
 class PrivateCategoryActions {
   requestCategories = () => {
@@ -78,6 +79,19 @@ class PrivateCategoryActions {
     return {
       type: categoryConstants.UPDATE_CATEGORY.FAILURE,
       payload: errors
+    }
+  }
+
+  requestItemsHistory = () => {
+    return {
+      type: categoryConstants.REQUEST_ITEMS_HISTORY
+    }
+  }
+
+  receiveItemsHistory = (data) => {
+    return {
+      type: categoryConstants.RECEIVE_ITEMS_HISTORY,
+      payload: data
     }
   }
 
@@ -203,6 +217,23 @@ class PublicCategoryActions {
           dispatch(privateCategoryActions.updateCategoryFailure(errors));
         });
     }
+  }
+
+  fetchItemsHistory = () => {
+    return (dispatch) => {
+      dispatch(privateCategoryActions.requestItemsHistory());
+
+      const token = localStorage.getItem('api_owner_token');
+
+      return axios.get(`${ITEMS_HISTORY_URL}?token=${token}`)
+        .then(response => {
+          const { data } = response;
+
+          // console.log(data);
+
+          dispatch(privateCategoryActions.receiveItemsHistory(data));
+        });
+    };
   }
 }
 

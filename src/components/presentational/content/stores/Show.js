@@ -22,19 +22,19 @@ const ProductColumnTitle = styled.h1`
 export default ({ store, products }) => (
   <Container>
     <Row style={{paddingBottom: 50}}>
-      <Col span={12}>
+      <Col sm={12}>
         <Link to="/stores" className="btn btn-outline-success pull-left">
           <Button type="primary">
             <Icon type="left" />Voltar
           </Button>
         </Link>
       </Col>
-      <Col span={12} align="bottom">
+      <Col sm={12} align="bottom">
         <ProductColumnTitle>Produtos Disponíveis</ProductColumnTitle>
       </Col>
     </Row>
     <Row>
-      <Col span={10} align="middle" >
+      <Col sm={10} align="middle" >
         <Card
           style={{ minWidth: 200 }}
           cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
@@ -47,7 +47,7 @@ export default ({ store, products }) => (
           <LoadGroceryProductsList storeId={store.id} items={store.grocery_items} />
         </Card>
       </Col>
-      <Col span={12} style={{paddingLeft: 50}}>
+      <Col sm={12} style={{marginLeft: 50}}>
         <MatchedProducts 
           storeId={store.id} 
           products={products} 

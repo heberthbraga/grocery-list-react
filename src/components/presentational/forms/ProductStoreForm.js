@@ -17,10 +17,10 @@ const handleTargetFieldError = (targetId, product, errors) => {
 export default ({ product, onSubmit, onChange, errors, targetId }) => (
   <Form id={`formProductStore${product.id}`} onSubmit={onSubmit} style={{flex: 1}}>
     <Row>
-      <Col sm={14}>
+      <Col span={10} sm={10}>
         {product.name}
       </Col>
-      <Col sm={4}>
+      <Col span={10} sm={10}>
         <Form.Item
           key={product.id}
           validateStatus={handleTargetFieldError(targetId, product, errors) ? 'error' : ''}
@@ -35,7 +35,7 @@ export default ({ product, onSubmit, onChange, errors, targetId }) => (
           /> 
         </Form.Item>
       </Col>
-      <Col sm={6} style={{textAlign: 'right'}}>
+      <Col span={10} sm={4} style={{textAlign: 'right'}}>
         <Button type="primary" htmlType="submit">Add</Button>
       </Col>
     </Row>
