@@ -31,7 +31,7 @@ class NewCategory extends Component {
       const { name, value } = e.target;
       this.setState({ [name]: value })
     } else {
-      this.setState({ category_id: e });
+      this.setState({ parent_id: e.value });
     }
   }
 

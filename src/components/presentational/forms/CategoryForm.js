@@ -52,7 +52,7 @@ const renderParentOptions = (parentCategories) => {
   );
 }
 
-const renderSelect = (field, onChange, parentCategories, defaultValue) => {
+const renderSelect = (field, onChange, parentCategories, defaultValue, parentId) => {
 
   let items = {
     placeholder: field.placeholder, 
@@ -61,18 +61,19 @@ const renderSelect = (field, onChange, parentCategories, defaultValue) => {
     options: renderParentOptions(parentCategories)
   }
 
-  if (field.id === 'parent_id' && defaultValue && parentCategories) {
-    const currentParent = parentCategories[defaultValue];
+  if (field.id === 'parent_id' && parentCategories) {
+    const value = defaultValue ? defaultValue : parentId
+    const currentParent = parentCategories[value];
 
     if (currentParent) {
-      items['value'] = { label: currentParent.name, value: defaultValue } 
+      items['value'] = { label: currentParent.name, value: value } 
     }
   }
 
   return <Select {...items} />
 }
 
-const renderFields = (errors, onChange, parentCategories, existingCategory) => {
+const renderFields = (errors, onChange, parentCategories, existingCategory, parentId) => {
   return _.map(FIELDS, (field, key) => {
     const defaultValue = fieldValue(field.id, existingCategory);
 
@@ -104,14 +105,14 @@ const renderFields = (errors, onChange, parentCategories, existingCategory) => {
             defaultValue={defaultValue}
           />
         :
-          renderSelect(field, onChange, parentCategories, defaultValue)
+          renderSelect(field, onChange, parentCategories, defaultValue, parentId)
         } 
       </Form.Item>
     );
   });
 }
 
-export default ({ onSubmit, onChange, errors, parentCategories, existingCategory }) => (
+export default ({ onSubmit, onChange, errors, parentCategories, existingCategory, parentId }) => (
   <Container>
     <Row style={{ marginBottom: 20 }}>
       <Title>{existingCategory ? 'Editar Categoria' : 'Adicionar Categoria'}</Title>
@@ -119,7 +120,7 @@ export default ({ onSubmit, onChange, errors, parentCategories, existingCategory
     <Row>
       <Form onSubmit={onSubmit}>
         {
-          renderFields(errors, onChange, parentCategories, existingCategory)
+          renderFields(errors, onChange, parentCategories, existingCategory, parentId)
         }
         <Form.Item
           wrapperCol={{ xs: {span: 12, offset: 0}, sm: {span: 8, offset: 4} }}
